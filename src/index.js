@@ -7,7 +7,7 @@ import { useDebounce } from 'use-debounce'
 import { addOrRemoveValueFromArray, getTypeLabel, getTimeLabel, getTagLabel } from './helpers'
 import { map, concat, find, filter } from 'lodash-es'
 
-const PUBLIC_GROUP = { value: 0, label: requestTranslation('publicFilter') }
+const PUBLIC_GROUP = { value: 0, label: requestTranslation('publicWord') }
 const USER_LANGUAGE = document.querySelector('html').getAttribute('lang') || 'en'
 const SELECTED_LANGUAGE = find(radarLanguagesWithAll(), { value: USER_LANGUAGE })
 const DEFAULT_TIMES = { min: new Date().getFullYear(), max: null }
@@ -15,13 +15,27 @@ const SEARCH_DEBOUNCE_MS = 350
 
 setLanguage(USER_LANGUAGE)
 
-const ContentFilters = ({ onFilterChange, page, search }) => {
+const ContentFilters = ({
+  onFilterChange,
+  page,
+  search,
+  passedGroups = false,
+  countShown = true
+}) => {
   const resetFilters = () => {
     setSelectedTypes([])
     setSelectedTimes(DEFAULT_TIMES)
     setSelectedTags([])
     setSelectedLanguage(SELECTED_LANGUAGE)
     setSelectedGroup(PUBLIC_GROUP)
+  }
+
+  const areFiltersApplied = () => {
+    if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
+      return true
+    }
+
+    return false
   }
 
   const [typesShown, setTypesShown] = useState(false)
@@ -43,13 +57,10 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
     phenomenonTypesById
   } = usePhenomenonTypes(selectedGroup.value)
 
-  const {
-    loading: groupsLoading,
-    groups
-  } = useGroups()
+  const { loading: groupsLoading, groups } = useGroups()
 
   const loading = phenomenaTypesLoading || groupsLoading
-  const groupOptions = concat([PUBLIC_GROUP], filter(groups, group => group.id))
+  const groupOptions = passedGroups || concat([PUBLIC_GROUP], filter(groups, group => group.id))
 
   // todo debounce search
   useEffect(() => {
@@ -60,7 +71,8 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
       language: selectedLanguage,
       group: selectedGroup,
       page,
-      search: debouncedSearchValue
+      search: debouncedSearchValue,
+      filtersActive: areFiltersApplied()
     })
   }, [
     selectedTypes,
@@ -90,6 +102,7 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
               }))}
               onTabClick={() => setTypesShown(!typesShown)}
               resetFilters={() => setSelectedTypes([])}
+              countShown={countShown}
           />
       </div>
       <div className='mb-3'>
@@ -100,6 +113,7 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
               selectedOption={selectedTimes}
               handleOptionSelect={times => setSelectedTimes(times)}
               onTabClick={() => setTimesShown(!timesShown)}
+              countShown={countShown}
           />
       </div>
       <div className='mb-3'>
@@ -112,6 +126,7 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
               onTabClick={() => setTagsShown(!tagsShown)}
               group={selectedGroup.value}
               language={selectedLanguage.value}
+              countShown={countShown}
           />
       </div>
       <div className='mb-3'>
@@ -124,6 +139,7 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
               selectedOption={selectedGroup}
               onTabClick={() => setGroupsShown(!groupsShown)}
               handleOptionSelect={e =>  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
+              countShown={countShown}
           />
       </div>
       <div className='mb-3'>
@@ -136,6 +152,7 @@ const ContentFilters = ({ onFilterChange, page, search }) => {
               selectedOption={selectedLanguage}
               handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
               onTabClick={() => setLanguagesShown(!languagesShown)}
+              countShown={countShown}
           />
       </div>
       <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
