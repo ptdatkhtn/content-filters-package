@@ -62,7 +62,6 @@ const ContentFilters = ({
   const loading = phenomenaTypesLoading || groupsLoading
   const groupOptions = passedGroups || concat([PUBLIC_GROUP], filter(groups, group => group.id))
 
-  // todo debounce search
   useEffect(() => {
     onFilterChange({
       types: selectedTypes,
