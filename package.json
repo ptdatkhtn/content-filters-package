@@ -1,13 +1,13 @@
 {
   "name": "@sangre-fp/content-filters",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "main": "dist/index.umd.js",
   "module": "dist/index.modern.mjs",
   "license": "UNLICENSED",
   "dependencies": {
-    "@sangre-fp/content-editor": "^2.0.20",
-    "@sangre-fp/i18n": "^2.0.8",
-    "@sangre-fp/ui": "^2.0.16",
+    "@sangre-fp/content-editor": "^2.0.21",
+    "@sangre-fp/i18n": "^2.0.9",
+    "@sangre-fp/ui": "^2.0.17",
     "lodash-es": "^4.17.15",
     "styled-components": "^4.4.1",
     "use-debounce": "^3.3.0"
