@@ -20,7 +20,9 @@ const ContentFilters = ({
   page,
   search,
   passedGroups = false,
-  countShown = true
+  countShown = true,
+  resetShown = true,
+  manualFilterReset
 }) => {
   const resetFilters = () => {
     setSelectedTypes([])
@@ -82,6 +84,12 @@ const ContentFilters = ({
     page,
     debouncedSearchValue
   ])
+
+  useEffect(() => {
+    if (manualFilterReset) {
+      resetFilters()
+    }
+  }, [manualFilterReset])
 
   return (
     <Fragment>
@@ -154,9 +162,11 @@ const ContentFilters = ({
               countShown={countShown}
           />
       </div>
-      <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
-          {requestTranslation('resetFilters')}
-      </button>
+      {resetShown && (
+        <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
+            {requestTranslation('resetFilters')}
+        </button>
+      )}
     </Fragment>
   )
 }
