@@ -163,7 +163,8 @@ const ContentFilters = ({
           />
       </div>
       {resetShown && (
-        <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
+        <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
+            <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
             {requestTranslation('resetFilters')}
         </button>
       )}
