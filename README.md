@@ -1,3 +1,3 @@
 # Content Filters
 
-This package is used in ... for following purposes ... 
+This package is used in Content manager and Radar App for filtering content.

@@ -1,8 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { requestTranslation, radarLanguagesWithAll, setLanguage } from '@sangre-fp/i18n'
 import { OptionDropdown, TagOptionDropdown, TimelineOptionDropdown, Loading } from '@sangre-fp/ui'
-// TODO: make a hooks package, there's no reason for this to be fetched from content-editor
-import { usePhenomenonTypes, useGroups, useEditableGroups } from '@sangre-fp/content-editor'
+import { useTags, usePhenomenonTypes, useGroups, useEditableGroups } from '@sangre-fp/hooks'
 import { useDebounce } from 'use-debounce'
 import { addOrRemoveValueFromArray, getTypeLabel, getTimeLabel, getTagLabel } from './helpers'
 import { map, concat, find, filter } from 'lodash-es'
@@ -134,6 +133,7 @@ const ContentFilters = ({
               group={selectedGroup.value}
               language={selectedLanguage.value}
               countShown={countShown}
+              useTags={useTags}
           />
       </div>
       <div className='mb-3'>
