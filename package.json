@@ -1,11 +1,11 @@
 {
   "name": "@sangre-fp/content-filters",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "main": "dist/index.umd.js",
   "module": "dist/index.modern.mjs",
   "license": "UNLICENSED",
   "dependencies": {
-    "@sangre-fp/hooks": "^1.0.1",
+    "@sangre-fp/hooks": "^1.0.2",
     "@sangre-fp/i18n": "^2.0.12",
     "@sangre-fp/ui": "^2.0.20",
     "lodash-es": "^4.17.15",
