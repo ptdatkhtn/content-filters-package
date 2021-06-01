@@ -1040,9 +1040,9 @@
     lodash-es "^4.17.15"
 
 "@sangre-fp/hooks@^1.0.9":
-  version "1.0.11"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.11.tgz#9c15fd18af979dcad78873e8daee5c66e07a9ca6"
-  integrity sha512-RIHmBIxHcAoGuMvOkYDNtJBjBOf1FShYTF3eU3cxaac1w9GwfWwIT3siVZ/kMMXbJOrHWWpbl32pmzU7I7rV8g==
+  version "1.0.12"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.12.tgz#0bfd4168da77a9960be959b9666dcf0209b2422d"
+  integrity sha512-6KXGjbOYphfBhVjGwt5CP7txsHnLPNoL8AuMzLJB2UhKSrdi1k0TKGaYTZCtDFBOi6Stpdg4ao27DuXlFz4zng==
   dependencies:
     "@sangre-fp/connectors" "^1.5.5"
     lodash-es "^4.17.15"
@@ -1055,9 +1055,9 @@
     lodash "^4.17.15"
 
 "@sangre-fp/ui@^2.0.23":
-  version "2.0.25"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.25.tgz#904df6b894297b31e58e7bb115370cbc23afc4f8"
-  integrity sha512-XE30PmHWDl7iu+rJGrV0OBILGIqI2HCJLYBvW3lp41QGxMH88AKMNQ8ygPFR7VKXhamg95jRdirSpAdr8XtxGQ==
+  version "2.0.26"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.26.tgz#e239e53d3d03f097e1e762acac743ed3b75bdd95"
+  integrity sha512-6KpFT+ukkLWvVkPeFViAC/02XhBthd/+MjWooAYNvrnU/cHStLa+j/AOPljB+OqINwBJPJBMDWnu9axTR3KAbA==
   dependencies:
     "@mdi/font" "^5.0.45"
     "@sangre-fp/i18n" "^2.0.15"
