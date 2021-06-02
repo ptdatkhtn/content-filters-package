@@ -1,14 +1,7 @@
 image: node:14-alpine
 
 stages:
-  - test
   - deploy
-
-test:
-  stage: test
-  script:
-    - yarn
-    - yarn test
 
 deploy:
   stage: deploy
@@ -18,7 +11,9 @@ deploy:
       //npm.sangre.dev/:_authToken='"$NPM_TOKEN"'
       @sangre-fp:registry=https://npm.sangre.dev
       ' > /root/.npmrc
+    - yarn install
     - npm i -g microbundle@next --unsafe
+    - yarn build
     - npm publish
   only:
     - tags
