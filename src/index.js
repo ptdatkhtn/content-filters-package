@@ -61,13 +61,14 @@ const ContentFilters = ({
   const { loading: groupsLoading, groups } = useGroups()
 
   const loading = phenomenaTypesLoading || groupsLoading
+
   const allGroups = groups.map( g => {
     return g.value
   })
   const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups),
     label: 'all' }
-  const groupOptions = passedGroups || [ALL_GROUP].concat([PUBLIC_GROUP], filter(groups, group => group.id))
-  
+  const groupOptions = passedGroups || concat([PUBLIC_GROUP, ALL_GROUP], filter(groups, group => group.id))
+
   useEffect(() => {
     onFilterChange({
       types: selectedTypes,
