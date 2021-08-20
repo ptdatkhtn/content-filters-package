@@ -23,20 +23,22 @@ const ContentFilters = ({
   resetShown = true,
   manualFilterReset
 }) => {
+  const resetFilters = () => {
+    setSelectedTypes([])
+    setSelectedTimes(DEFAULT_TIMES)
+    setSelectedTags([])
+    setSelectedLanguage(SELECTED_LANGUAGE)
+    setSelectedGroup(PUBLIC_GROUP)
+  }
+
   const areFiltersApplied = () => {
-    if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== ALL_GROUP) {
+    if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
       return true
     }
 
     return false
   }
 
-  const allGroups = groups.map( g => {
-    return g.value
-  })
-  const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups),
-    label: 'all' }
-    
   const [typesShown, setTypesShown] = useState(false)
   const [timesShown, setTimesShown] = useState(false)
   const [tagsShown, setTagsShown] = useState(false)
@@ -47,16 +49,8 @@ const ContentFilters = ({
   const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
   const [selectedTags, setSelectedTags] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState(SELECTED_LANGUAGE)
-  const [selectedGroup, setSelectedGroup] = useState(ALL_GROUP)
+  const [selectedGroup, setSelectedGroup] = useState(PUBLIC_GROUP)
   const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
-
-  const resetFilters = () => {
-    setSelectedTypes([])
-    setSelectedTimes(DEFAULT_TIMES)
-    setSelectedTags([])
-    setSelectedLanguage(SELECTED_LANGUAGE)
-    setSelectedGroup(ALL_GROUP)
-  }
 
   const {
     loading: phenomenaTypesLoading,
@@ -67,7 +61,11 @@ const ContentFilters = ({
   const { loading: groupsLoading, groups } = useGroups()
 
   const loading = phenomenaTypesLoading || groupsLoading
-  
+  const allGroups = groups.map( g => {
+    return g.value
+  })
+  const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups),
+    label: 'all' }
   const groupOptions = passedGroups || [ALL_GROUP].concat([PUBLIC_GROUP], filter(groups, group => group.id))
   
   useEffect(() => {
