@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@sangre-fp/hooks": "^1.0.9",
-    "@sangre-fp/i18n": "^2.1.5",
+    "@sangre-fp/i18n": "^2.1.7",
     "@sangre-fp/ui": "^2.0.26",
     "lodash-es": "^4.17.15",
     "styled-components": "^4.4.1",

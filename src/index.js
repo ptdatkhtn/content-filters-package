@@ -49,9 +49,31 @@ const ContentFilters = ({
   const allGroups = groups?.map( g => {
     return g.value
   })
-  const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups),
-    label: 'all' }
-  const groupOptions = passedGroups || concat([PUBLIC_GROUP, ALL_GROUP], filter(groups, group => group.id))
+  // const bc = filter(groups, group => group.label).sort( (a,b) => {
+  //   if (a.label < b.label) {
+  //     return -1;
+  //   }
+  //   if (a.label > b.label) {
+  //     return 1;
+  //   }
+  
+  //   // names must be equal
+  //   return 0;
+  // }).map(g => {
+  //   return g.value
+  // })
+  const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups), label: requestTranslation('allWord')}
+
+    const sortedGroups = filter(groups, group => group.label).sort( (a,b) => {
+      if (a.label < b.label) {
+        return -1;
+      }
+      if (a.label > b.label) {
+        return 1;
+      }
+      return 0;
+    })
+  const groupOptions = passedGroups || concat([ALL_GROUP, PUBLIC_GROUP], sortedGroups)
 
   const [typesShown, setTypesShown] = useState(false)
   const [timesShown, setTimesShown] = useState(false)
