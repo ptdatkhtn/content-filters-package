@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useMemo } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { requestTranslation, radarLanguagesWithAll, setLanguage } from '@sangre-fp/i18n'
 import { OptionDropdown, TagOptionDropdown, TimelineOptionDropdown, Loading } from '@sangre-fp/ui'
 import { useTags, usePhenomenonTypes, useGroups, useEditableGroups } from '@sangre-fp/hooks'
@@ -21,7 +21,9 @@ const ContentFilters = ({
   passedGroups = false,
   countShown = true,
   resetShown = true,
-  manualFilterReset
+  manualFilterReset,
+  groups,
+  groupsLoading
 }) => {
   const resetFilters = () => {
     setSelectedTypes([])
@@ -30,6 +32,7 @@ const ContentFilters = ({
     setSelectedLanguage(SELECTED_LANGUAGE)
     setSelectedGroup(PUBLIC_GROUP)
   }
+  console.log('groups', groups)
 
   const areFiltersApplied = () => {
     if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
@@ -38,6 +41,15 @@ const ContentFilters = ({
 
     return false
   }
+
+  const loading = phenomenaTypesLoading || groupsLoading
+
+  const allGroups = groups?.map( g => {
+    return g.value
+  })
+  const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups),
+    label: 'all' }
+  const groupOptions = passedGroups || concat([PUBLIC_GROUP, ALL_GROUP], filter(groups, group => group.id))
 
   const [typesShown, setTypesShown] = useState(false)
   const [timesShown, setTimesShown] = useState(false)
@@ -49,30 +61,14 @@ const ContentFilters = ({
   const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
   const [selectedTags, setSelectedTags] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState(SELECTED_LANGUAGE)
-  const [selectedGroup, setSelectedGroup] = useState(PUBLIC_GROUP)
+  const [selectedGroup, setSelectedGroup] = useState(ALL_GROUP)
   const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
 
   const {
     loading: phenomenaTypesLoading,
     phenomenonTypes,
     phenomenonTypesById
-  } = usePhenomenonTypes(selectedGroup && selectedGroup.value)
-
-  const { loading: groupsLoading, groups } = useGroups()
-  const loading = phenomenaTypesLoading || groupsLoading
-
-  useEffect(() => {
-    if (Array.isArray(groups)) {
-      const allGroups = groups.map(g => {
-        return g.value
-      })
-      setSelectedGroup({ value: passedGroups || concat([PUBLIC_GROUP.value], allGroups), label: 'all' })
-    }
-  }, [groups])
-
-  const groupOptions = useMemo(() => {
-    return passedGroups || concat([PUBLIC_GROUP, selectedGroup], filter(groups, group => group.id))
-  }, [selectedGroup])
+  } = usePhenomenonTypes(selectedGroup.value)
 
   useEffect(() => {
     onFilterChange({
@@ -103,88 +99,89 @@ const ContentFilters = ({
 
   return (
     <Fragment>
-      {loading ? (
-        <div className="py-2 pl-2">{requestTranslation('loading')}</div>
-      ) : (
-        <>
-          <div className='mb-3'>
+      {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
+      {
+        !loading &&
+        (
+          <>
+            <div className='mb-3'>
             <OptionDropdown
-              label={requestTranslation('createPhenomenaFormTypeLabel')}
-              optionsShown={typesShown}
-              type={'type'}
-              title={selectedTypes.length ? getTypeLabel(selectedTypes) : requestTranslation('all')}
-              selectedOption={selectedTypes}
-              handleOptionSelect={type => setSelectedTypes(addOrRemoveValueFromArray(selectedTypes, type))}
-              options={map(phenomenonTypes, type => ({
-                value: type.id,
-                label: type.alias || type.title || type.label,
-                style: type.style
-              }))}
-              onTabClick={() => setTypesShown(!typesShown)}
-              resetFilters={() => setSelectedTypes([])}
-              countShown={countShown}
+                label={requestTranslation('createPhenomenaFormTypeLabel')}
+                optionsShown={typesShown}
+                type={'type'}
+                title={selectedTypes.length ? getTypeLabel(selectedTypes) : requestTranslation('all')}
+                selectedOption={selectedTypes}
+                handleOptionSelect={type => setSelectedTypes(addOrRemoveValueFromArray(selectedTypes, type))}
+                options={map(phenomenonTypes, type => ({
+                  value: type.id,
+                  label: type.alias || type.title || type.label,
+                  style: type.style
+                }))}
+                onTabClick={() => setTypesShown(!typesShown)}
+                resetFilters={() => setSelectedTypes([])}
+                countShown={countShown}
             />
-          </div>
-          <div className='mb-3'>
-            <TimelineOptionDropdown
-              label={requestTranslation('time')}
-              optionsShown={timesShown}
-              title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
-              selectedOption={selectedTimes}
-              handleOptionSelect={times => setSelectedTimes(times)}
-              onTabClick={() => setTimesShown(!timesShown)}
-              countShown={countShown}
-            />
-          </div>
-          <div className='mb-3'>
-            <TagOptionDropdown
-              label={requestTranslation('tags')}
-              optionsShown={tagsShown}
-              title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
-              selectedOption={selectedTags}
-              handleOptionSelect={tag => setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))}
-              onTabClick={() => setTagsShown(!tagsShown)}
-              group={selectedGroup.value}
-              language={selectedLanguage.value}
-              countShown={countShown}
-              useTags={useTags}
-            />
-          </div>
-          <div className='mb-3'>
-            <OptionDropdown
-              label={requestTranslation('group')}
-              title={selectedGroup.label}
-              type={'radio'}
-              optionsShown={groupsShown}
-              options={groupOptions}
-              selectedOption={selectedGroup}
-              onTabClick={() => setGroupsShown(!groupsShown)}
-              handleOptionSelect={e => setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
-              countShown={countShown}
-            />
-          </div>
-          <div className='mb-3'>
-            <OptionDropdown
-              label={requestTranslation('language')}
-              title={selectedLanguage.label}
-              type={'radio'}
-              optionsShown={languagesShown}
-              options={radarLanguagesWithAll()}
-              selectedOption={selectedLanguage}
-              handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
-              onTabClick={() => setLanguagesShown(!languagesShown)}
-              countShown={countShown}
-            />
-          </div>
-          {resetShown && (
-            <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
-              <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
-              {requestTranslation('resetFilters')}
-            </button>
-          )}
-        </>
-      )}
-
+            </div>
+            <div className='mb-3'>
+                <TimelineOptionDropdown
+                    label={requestTranslation('time')}
+                    optionsShown={timesShown}
+                    title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
+                    selectedOption={selectedTimes}
+                    handleOptionSelect={times => setSelectedTimes(times)}
+                    onTabClick={() => setTimesShown(!timesShown)}
+                    countShown={countShown}
+                />
+            </div>
+            <div className='mb-3'>
+                <TagOptionDropdown
+                    label={requestTranslation('tags')}
+                    optionsShown={tagsShown}
+                    title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
+                    selectedOption={selectedTags}
+                    handleOptionSelect={tag => setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))}
+                    onTabClick={() => setTagsShown(!tagsShown)}
+                    group={selectedGroup.value}
+                    language={selectedLanguage.value}
+                    countShown={countShown}
+                    useTags={useTags}
+                />
+            </div>
+            <div className='mb-3'>
+                <OptionDropdown
+                    label={requestTranslation('group')}
+                    title={selectedGroup.label}
+                    type={'radio'}
+                    optionsShown={groupsShown}
+                    options={groupOptions}
+                    selectedOption={selectedGroup}
+                    onTabClick={() => setGroupsShown(!groupsShown)}
+                    handleOptionSelect={e =>  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
+                    countShown={countShown}
+                />
+            </div>
+            <div className='mb-3'>
+                <OptionDropdown
+                    label={requestTranslation('language')}
+                    title={selectedLanguage.label}
+                    type={'radio'}
+                    optionsShown={languagesShown}
+                    options={radarLanguagesWithAll()}
+                    selectedOption={selectedLanguage}
+                    handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
+                    onTabClick={() => setLanguagesShown(!languagesShown)}
+                    countShown={countShown}
+                />
+            </div>
+            {resetShown && (
+              <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
+                  <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
+                  {requestTranslation('resetFilters')}
+              </button>
+            )}
+          </>
+        )
+      }
     </Fragment>
   )
 }
