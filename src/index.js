@@ -23,7 +23,8 @@ const ContentFilters = ({
   resetShown = true,
   manualFilterReset,
   groupsProp,
-  groupsLoading
+  groupsLoading,
+  highest_group_role
 }) => {
   if (!groupsProp || groupsProp === undefined) {
     const resetFilters = () => {
@@ -112,6 +113,8 @@ const ContentFilters = ({
                 onTabClick={() => setTypesShown(!typesShown)}
                 resetFilters={() => setSelectedTypes([])}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -123,6 +126,8 @@ const ContentFilters = ({
                 handleOptionSelect={times => setSelectedTimes(times)}
                 onTabClick={() => setTimesShown(!timesShown)}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -137,6 +142,8 @@ const ContentFilters = ({
                 language={selectedLanguage.value}
                 countShown={countShown}
                 useTags={useTags}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -150,6 +157,8 @@ const ContentFilters = ({
                 onTabClick={() => setGroupsShown(!groupsShown)}
                 handleOptionSelect={e =>  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -163,10 +172,15 @@ const ContentFilters = ({
                 handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
                 onTabClick={() => setLanguagesShown(!languagesShown)}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         {resetShown && (
-          <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
+          <button 
+            style={{opacity: highest_group_role ==='free' ? 0.5 : 1}}
+            disabled={highest_group_role ==='free'}
+            className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
               <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
               {requestTranslation('resetFilters')}
           </button>
@@ -291,6 +305,8 @@ const ContentFilters = ({
                 onTabClick={() => setTypesShown(!typesShown)}
                 resetFilters={() => setSelectedTypes([])}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -302,6 +318,8 @@ const ContentFilters = ({
                 handleOptionSelect={times => setSelectedTimes(times)}
                 onTabClick={() => setTimesShown(!timesShown)}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -316,6 +334,8 @@ const ContentFilters = ({
                 language={selectedLanguage.value}
                 countShown={countShown}
                 useTags={useTags}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -329,6 +349,8 @@ const ContentFilters = ({
                 onTabClick={() => setGroupsShown(!groupsShown)}
                 handleOptionSelect={e =>  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         <div className='mb-3'>
@@ -342,10 +364,15 @@ const ContentFilters = ({
                 handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
                 onTabClick={() => setLanguagesShown(!languagesShown)}
                 countShown={countShown}
+                highest_group_role={highest_group_role}
+                disabled={highest_group_role ==='free'}
             />
         </div>
         {resetShown && (
-          <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
+          <button 
+            style={{opacity: highest_group_role ==='free' ? 0.5 : 1}}
+            disabled={highest_group_role ==='free'}
+            className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={resetFilters}>
               <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
               {requestTranslation('resetFilters')}
           </button>
