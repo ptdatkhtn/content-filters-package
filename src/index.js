@@ -291,7 +291,7 @@ const ContentFilters = ({
         {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
         <div className='mb-3'>
             <OptionDropdown
-                id="type-cont-exp-filter"
+                id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}
                 label={requestTranslation('createPhenomenaFormTypeLabel')}
                 optionsShown={typesShown}
                 type={'type'}
@@ -312,7 +312,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <TimelineOptionDropdown
-                id="time-cont-exp-filter"
+                id={highest_group_role === 'free' ? "time-cont-exp-filter" : null}
                 label={requestTranslation('time')}
                 optionsShown={timesShown}
                 title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
@@ -326,7 +326,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <TagOptionDropdown
-                id="tags-cont-exp-filter"
+                id={highest_group_role === 'free' ? "tags-cont-exp-filter" : null}
                 label={requestTranslation('tags')}
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
@@ -343,7 +343,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <OptionDropdown
-                id="group-cont-exp-filter"
+                id={highest_group_role === 'free' ? "group-cont-exp-filter" : null}
                 label={requestTranslation('group')}
                 title={selectedGroup.label}
                 type={'radio'}
@@ -359,7 +359,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <OptionDropdown
-                id="lang-cont-exp-filter"
+                id={highest_group_role === 'free' ? "lang-cont-exp-filter" : null}
                 label={requestTranslation('language')}
                 title={selectedLanguage.label}
                 type={'radio'}
