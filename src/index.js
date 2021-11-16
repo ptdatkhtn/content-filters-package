@@ -291,6 +291,7 @@ const ContentFilters = ({
         {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
         <div className='mb-3'>
             <OptionDropdown
+                id="type-cont-exp-filter"
                 label={requestTranslation('createPhenomenaFormTypeLabel')}
                 optionsShown={typesShown}
                 type={'type'}
@@ -311,6 +312,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <TimelineOptionDropdown
+                id="time-cont-exp-filter"
                 label={requestTranslation('time')}
                 optionsShown={timesShown}
                 title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
@@ -324,6 +326,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <TagOptionDropdown
+                id="tags-cont-exp-filter"
                 label={requestTranslation('tags')}
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
@@ -340,6 +343,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <OptionDropdown
+                id="group-cont-exp-filter"
                 label={requestTranslation('group')}
                 title={selectedGroup.label}
                 type={'radio'}
@@ -355,6 +359,7 @@ const ContentFilters = ({
         </div>
         <div className='mb-3'>
             <OptionDropdown
+                id="lang-cont-exp-filter"
                 label={requestTranslation('language')}
                 title={selectedLanguage.label}
                 type={'radio'}
