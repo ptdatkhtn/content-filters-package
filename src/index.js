@@ -289,9 +289,8 @@ const ContentFilters = ({
     return (
       <Fragment>
         {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}>
             <OptionDropdown
-                id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}
                 label={requestTranslation('createPhenomenaFormTypeLabel')}
                 optionsShown={typesShown}
                 type={'type'}
@@ -310,9 +309,8 @@ const ContentFilters = ({
                 disabled={highest_group_role ==='free'}
             />
         </div>
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "time-cont-exp-filter" : null}>
             <TimelineOptionDropdown
-                id={highest_group_role === 'free' ? "time-cont-exp-filter" : null}
                 label={requestTranslation('time')}
                 optionsShown={timesShown}
                 title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
@@ -324,9 +322,8 @@ const ContentFilters = ({
                 disabled={highest_group_role ==='free'}
             />
         </div>
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "tags-cont-exp-filter" : null}>
             <TagOptionDropdown
-                id={highest_group_role === 'free' ? "tags-cont-exp-filter" : null}
                 label={requestTranslation('tags')}
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
@@ -341,9 +338,8 @@ const ContentFilters = ({
                 disabled={highest_group_role ==='free'}
             />
         </div>
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "group-cont-exp-filter" : null}>
             <OptionDropdown
-                id={highest_group_role === 'free' ? "group-cont-exp-filter" : null}
                 label={requestTranslation('group')}
                 title={selectedGroup.label}
                 type={'radio'}
@@ -357,9 +353,8 @@ const ContentFilters = ({
                 disabled={highest_group_role ==='free'}
             />
         </div>
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "lang-cont-exp-filter" : null}>
             <OptionDropdown
-                id={highest_group_role === 'free' ? "lang-cont-exp-filter" : null}
                 label={requestTranslation('language')}
                 title={selectedLanguage.label}
                 type={'radio'}
