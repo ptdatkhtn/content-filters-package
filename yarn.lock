@@ -1085,10 +1085,10 @@
   dependencies:
     lodash "^4.17.15"
 
-"@sangre-fp/ui@^2.0.38":
-  version "2.0.38"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.38.tgz#12bf523b1957c3b94b3cdad305c4cbecf1b1321f"
-  integrity sha512-TDKec8T6s8PSxiMrlZhW+kzKROqN3g8PqpOsQ/OBJRFWR6JxUn08ul63ImEyaFiHtm9sm2iF46lhET+H5KGoHw==
+"@sangre-fp/ui@^2.0.43":
+  version "2.0.43"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.43.tgz#97745b0084bffd105948dd9b9ccbb7136642f712"
+  integrity sha512-4GVEnKxfwJ7AWhABWmnolwRQYw6ajBt1xJR0RS7sH5EU52dMVTxnoDaqWwhWoQcNnx9Jp2OwbEyhX2fjXGXKbg==
   dependencies:
     "@mdi/font" "^5.0.45"
     "@sangre-fp/i18n" "^2.0.15"

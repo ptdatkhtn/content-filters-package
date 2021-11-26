@@ -189,21 +189,7 @@ const ContentFilters = ({
     )
   }
   else {
-    const resetFilters = () => {
-      setSelectedTypes([])
-      setSelectedTimes(DEFAULT_TIMES)
-      setSelectedTags([])
-      setSelectedLanguage(SELECTED_LANGUAGE)
-      setSelectedGroup(ALL_GROUP)
-    }
-  
-    const areFiltersApplied = () => {
-      if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
-        return true
-      }
-  
-      return false
-    }
+    
   
     // const { loading: groupsLoading } = useGroups()
   
@@ -225,13 +211,31 @@ const ContentFilters = ({
     // }).map(g => {
     //   return g.value
     // })
-    const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups), label: requestTranslation('allWord')}
+    const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups? allGroups : 0), label: requestTranslation('allWord')}
+    console.log('ALL_GROUP', ALL_GROUP, allGroups, passedGroups)
   
+    const resetFilters = () => {
+      setSelectedTypes([])
+      setSelectedTimes(DEFAULT_TIMES)
+      setSelectedTags([])
+      setSelectedLanguage(SELECTED_LANGUAGE)
+      setSelectedGroup(ALL_GROUP)
+    }
+  
+    const areFiltersApplied = () => {
+      if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
+        return true
+      }
+  
+      return false
+    }
+    
+    console.log('1112', groupsProp)
       const sortedGroups = filter(groupsProp, group => group.label).sort( (a,b) => {
-        if (a.label < b.label) {
+        if (a?.label < b?.label) {
           return -1;
         }
-        if (a.label > b.label) {
+        if (a?.label > b?.label) {
           return 1;
         }
         return 0;
