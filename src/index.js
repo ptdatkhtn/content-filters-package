@@ -332,7 +332,12 @@ const ContentFilters = ({
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
                 selectedOption={selectedTags}
-                handleOptionSelect={tag => setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))}
+                handleOptionSelect={tag => {
+                  console.log('tag123', tag)
+                  console.log('selectedTags123', selectedTags)
+                  console.log('addOrRemoveValueFromArray(selectedTags, tag)', addOrRemoveValueFromArray(selectedTags, tag))
+                  setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))
+                }}
                 onTabClick={() => setTagsShown(!tagsShown)}
                 group={selectedGroup.value}
                 language={selectedLanguage.value}
