@@ -1,7 +1,7 @@
 import { find, capitalize, isString } from 'lodash-es'
 import { requestTranslation } from '@sangre-fp/i18n'
 
-export const addOrRemoveValueFromArray = (array, value) => (find(array, value) || find(array, value?.label?.en) || find(array, value?.label?.fi)) ? _.filter(array, v => {
+export const addOrRemoveValueFromArray = (array, value) => find(array, value) ? _.filter(array, v => {
     console.log(1234989, array, value)
     console.log(7777, value)
     if (typeof v?.label === 'string' && typeof value?.label  === 'string') {

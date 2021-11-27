@@ -341,7 +341,14 @@ const ContentFilters = ({
                 handleOptionSelect={tag => {
                   console.log('tag123', tag)
                   console.log('selectedTags123', selectedTags)
-                  console.log('addOrRemoveValueFromArray(selectedTags, tag)', addOrRemoveValueFromArray(selectedTags, tag))
+                  let tempTag = null
+                  if(!!tag?.uri) {
+                    tempTag = {
+                      label: tag?.label,
+                      value: tag?.uri
+                    }
+                  }
+                  console.log('addOrRemoveValueFromArray(selectedTags, tag)', addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                   setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))
                 }}
                 onTabClick={() => setTagsShown(!tagsShown)}
