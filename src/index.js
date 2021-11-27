@@ -349,7 +349,7 @@ const ContentFilters = ({
                     }
                   }
                   console.log('addOrRemoveValueFromArray(selectedTags, tag)', addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
-                  setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))
+                  setSelectedTags(addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                 }}
                 onTabClick={() => setTagsShown(!tagsShown)}
                 group={selectedGroup.value}
