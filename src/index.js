@@ -136,12 +136,15 @@ const ContentFilters = ({
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
                 selectedOption={selectedTags}
-                // handleOptionSelect={tag => setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))}
                 handleOptionSelect={tag => {
-                  console.log('tag123aaaaa', tag)
-                  console.log('selectedTags123aaa', selectedTags)
-                  console.log('addOrRemoveValueFromArray(selectedTags, tag)aaaa', addOrRemoveValueFromArray(selectedTags, tag))
-                  setSelectedTags(addOrRemoveValueFromArray(selectedTags, tag))
+                  let tempTag = null
+                  if(!!tag?.uri) {
+                    tempTag = {
+                      label: tag?.label,
+                      value: tag?.uri
+                    }
+                  }
+                  setSelectedTags(addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                 }}
                 onTabClick={() => setTagsShown(!tagsShown)}
                 group={selectedGroup.value}
@@ -218,7 +221,6 @@ const ContentFilters = ({
     //   return g.value
     // })
     const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups? allGroups : 0), label: requestTranslation('allWord')}
-    console.log('ALL_GROUP', ALL_GROUP, allGroups, passedGroups)
   
     const resetFilters = () => {
       setSelectedTypes([])
@@ -235,8 +237,7 @@ const ContentFilters = ({
   
       return false
     }
-    
-    console.log('1112', groupsProp)
+
       const sortedGroups = filter(groupsProp, group => group.label).sort( (a,b) => {
         if (a?.label < b?.label) {
           return -1;
@@ -339,8 +340,6 @@ const ContentFilters = ({
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
                 selectedOption={selectedTags}
                 handleOptionSelect={tag => {
-                  console.log('tag123', tag)
-                  console.log('selectedTags123', selectedTags)
                   let tempTag = null
                   if(!!tag?.uri) {
                     tempTag = {
@@ -348,7 +347,6 @@ const ContentFilters = ({
                       value: tag?.uri
                     }
                   }
-                  console.log('addOrRemoveValueFromArray(selectedTags, tag)', addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                   setSelectedTags(addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                 }}
                 onTabClick={() => setTagsShown(!tagsShown)}

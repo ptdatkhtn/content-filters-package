@@ -2,8 +2,6 @@ import { find, capitalize, isString } from 'lodash-es'
 import { requestTranslation } from '@sangre-fp/i18n'
 
 export const addOrRemoveValueFromArray = (array, value) => find(array, value) ? _.filter(array, v => {
-    console.log(1234989, array, value)
-    console.log(7777, value)
     if (typeof v?.label === 'string' && typeof value?.label  === 'string') {
         return (v.label !== value.label)
     } else if (typeof value?.label  === 'object' && typeof v?.label  === 'object') {
