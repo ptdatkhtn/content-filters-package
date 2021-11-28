@@ -24,7 +24,9 @@ const ContentFilters = ({
   manualFilterReset,
   groupsProp,
   groupsLoading,
-  highest_group_role
+  highest_group_role,
+  isRadar,
+  group
 }) => {
   if (!groupsProp || groupsProp === undefined) {
     const resetFilters = () => {
@@ -153,6 +155,8 @@ const ContentFilters = ({
                 useTags={useTags}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                groupFromRadarApp={group}
+                isRadar={isRadar}
             />
         </div>
         <div className='mb-3'>
