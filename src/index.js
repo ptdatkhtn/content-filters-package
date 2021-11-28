@@ -157,6 +157,7 @@ const ContentFilters = ({
                 disabled={highest_group_role ==='free'}
                 groupFromRadarApp={group}
                 isRadar={isRadar}
+                nameRadio="tag-filters"
             />
         </div>
         <div className='mb-3'>
@@ -172,6 +173,7 @@ const ContentFilters = ({
                 countShown={countShown}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                nameRadio="group-filters"
             />
         </div>
         <div className='mb-3'>
@@ -360,6 +362,7 @@ const ContentFilters = ({
                 useTags={useTags}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                nameRadio="tag-filters"
             />
         </div>
         <div className='mb-3' id={highest_group_role === 'free' ? "group-cont-exp-filter" : null}>
@@ -375,6 +378,7 @@ const ContentFilters = ({
                 countShown={countShown}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                nameRadio="group-filters"
             />
         </div>
         <div className='mb-3' id={highest_group_role === 'free' ? "lang-cont-exp-filter" : null}>
