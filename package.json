@@ -7,7 +7,7 @@
   "dependencies": {
     "@sangre-fp/hooks": "^1.0.9",
     "@sangre-fp/i18n": "^2.1.7",
-    "@sangre-fp/ui": "^2.0.46",
+    "@sangre-fp/ui": "^2.0.47",
     "lodash-es": "^4.17.15",
     "styled-components": "^4.4.1",
     "use-debounce": "^3.3.0"
