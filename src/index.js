@@ -176,7 +176,7 @@ const ContentFilters = ({
                 nameRadio="group-filters"
             />
         </div>
-        <div className='mb-3'>
+        <div className='mb-3' id={highest_group_role === 'free' ? "lang-cont-exp-filter" : 'lang-filters'}>
             <OptionDropdown
                 label={requestTranslation('language')}
                 title={selectedLanguage.label}
@@ -189,6 +189,7 @@ const ContentFilters = ({
                 countShown={countShown}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                nameRadio="lang-filters"
             />
         </div>
         {resetShown && (
@@ -381,7 +382,7 @@ const ContentFilters = ({
                 nameRadio="group-filters"
             />
         </div>
-        <div className='mb-3' id={highest_group_role === 'free' ? "lang-cont-exp-filter" : null}>
+        <div className='mb-3' id={highest_group_role === 'free' ? "lang-cont-exp-filter" : 'lang-filters'}>
             <OptionDropdown
                 label={requestTranslation('language')}
                 title={selectedLanguage.label}
@@ -394,6 +395,7 @@ const ContentFilters = ({
                 countShown={countShown}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
+                nameRadio="lang-filters"
             />
         </div>
         {resetShown && (
