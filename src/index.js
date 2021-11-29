@@ -26,14 +26,18 @@ const ContentFilters = ({
   groupsLoading,
   highest_group_role,
   isRadar,
-  group
+  group,
+  langRadar
 }) => {
   if (!groupsProp || groupsProp === undefined) {
     const resetFilters = () => {
       setSelectedTypes([])
       setSelectedTimes(DEFAULT_TIMES)
       setSelectedTags([])
-      setSelectedLanguage(SELECTED_LANGUAGE)
+      setSelectedLanguage(!!isRadar ? {
+        value: langRadar || USER_LANGUAGE,
+        label: langRadar === 'en' ? 'English' : 'Suomi'
+      } : SELECTED_LANGUAGE)
       setSelectedGroup(PUBLIC_GROUP)
     }
   
@@ -233,7 +237,10 @@ const ContentFilters = ({
       setSelectedTypes([])
       setSelectedTimes(DEFAULT_TIMES)
       setSelectedTags([])
-      setSelectedLanguage(SELECTED_LANGUAGE)
+      setSelectedLanguage(!!isRadar ? {
+        value: langRadar || USER_LANGUAGE,
+        label: langRadar === 'en' ? 'English' : 'Suomi'
+      } : SELECTED_LANGUAGE)
       setSelectedGroup(ALL_GROUP)
     }
   
