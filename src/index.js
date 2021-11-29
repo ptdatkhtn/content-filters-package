@@ -58,7 +58,10 @@ const ContentFilters = ({
     const [selectedTypes, setSelectedTypes] = useState([])
     const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
     const [selectedTags, setSelectedTags] = useState([])
-    const [selectedLanguage, setSelectedLanguage] = useState(SELECTED_LANGUAGE)
+    const [selectedLanguage, setSelectedLanguage] = useState(!!isRadar ? {
+      value: langRadar || USER_LANGUAGE,
+      label: langRadar === 'en' ? 'English' : 'Suomi'
+    } : SELECTED_LANGUAGE)
     const [selectedGroup, setSelectedGroup] = useState(PUBLIC_GROUP)
     const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
   
@@ -272,7 +275,10 @@ const ContentFilters = ({
     const [selectedTypes, setSelectedTypes] = useState([])
     const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
     const [selectedTags, setSelectedTags] = useState([])
-    const [selectedLanguage, setSelectedLanguage] = useState(SELECTED_LANGUAGE)
+    const [selectedLanguage, setSelectedLanguage] = useState(!!isRadar ? {
+      value: langRadar || USER_LANGUAGE,
+      label: langRadar === 'en' ? 'English' : 'Suomi'
+    } : SELECTED_LANGUAGE)
     const [selectedGroup, setSelectedGroup] = useState(ALL_GROUP)
     const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
   
