@@ -14,6 +14,13 @@ const SEARCH_DEBOUNCE_MS = 350
 
 setLanguage(USER_LANGUAGE)
 
+function contentFiltersPropsAreEqual(prevProps, nextProps) {
+  return JSON.stringify(prevProps.groupsProp) === JSON.stringify(nextProps.groupsProp)
+    && prevProps.search === nextProps.search
+    && prevProps.page === nextProps.page
+    && prevProps.highest_group_role === nextProps.highest_group_role;
+}
+
 const ContentFilters = ({
   onFilterChange,
   page,
@@ -425,4 +432,5 @@ const ContentFilters = ({
   }
 }
 
-export default ContentFilters
+const MemoizedContentFilters = React.memo(ContentFilters, contentFiltersPropsAreEqual);
+export default MemoizedContentFilters
