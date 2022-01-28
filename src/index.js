@@ -71,7 +71,6 @@ const ContentFilters = ({
       phenomenonTypes,
       phenomenonTypesById
     } = usePhenomenonTypes(selectedGroup.value)
-    storingPhenomenaTypesToReduxStore({phenomenonTypes, phenomenonTypesById})
     const { loading: groupsLoading, groups } = useGroups()
   
     const loading = phenomenaTypesLoading || groupsLoading
@@ -166,7 +165,6 @@ const ContentFilters = ({
                 groupFromRadarApp={group}
                 isRadar={isRadar}
                 nameRadio="tag-filters"
-                storingTagsToReduxStore={storingTagsToReduxStore}
             />
         </div>
         <div className='mb-3'>
