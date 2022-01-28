@@ -1070,10 +1070,10 @@
     axios "^0.19.1"
     lodash-es "^4.17.15"
 
-"@sangre-fp/hooks@^1.0.9":
-  version "1.0.15"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.15.tgz#b20703c2c4b187d238a10b0cfe0c826d75f08616"
-  integrity sha512-4YgUxcMmRd0XOZ2VzyN56AldBHUiUUOAtLUEW80WKA1aTUnTssPXE9IrrgFmv3i5KMI4Kdj2J9OkCdGEn1U9gw==
+"@sangre-fp/hooks@^1.0.16":
+  version "1.0.16"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.16.tgz#fc1851ef90a72086e262b80bf6aa1016202743cd"
+  integrity sha512-Z77MvW9Cws+4ubDRcgRB8n0z2cmDc+SDKgR0A7vHF//LzsqSInEcJVLF14OgyHa6t3Jgf0MR/BWscpmihZ0olA==
   dependencies:
     "@sangre-fp/connectors" "^2.1.0"
     lodash-es "^4.17.15"

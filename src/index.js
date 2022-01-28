@@ -14,13 +14,6 @@ const SEARCH_DEBOUNCE_MS = 350
 
 setLanguage(USER_LANGUAGE)
 
-function contentFiltersPropsAreEqual(prevProps, nextProps) {
-  return JSON.stringify(prevProps.groupsProp) === JSON.stringify(nextProps.groupsProp)
-    && prevProps.search === nextProps.search
-    && prevProps.page === nextProps.page
-    && prevProps.highest_group_role === nextProps.highest_group_role;
-}
-
 const ContentFilters = ({
   onFilterChange,
   page,
@@ -34,7 +27,8 @@ const ContentFilters = ({
   highest_group_role,
   isRadar,
   group,
-  langRadar
+  langRadar,
+  isFilteredProp
 }) => {
   if (!groupsProp || groupsProp === undefined) {
     const resetFilters = () => {
@@ -77,7 +71,7 @@ const ContentFilters = ({
       phenomenonTypes,
       phenomenonTypesById
     } = usePhenomenonTypes(selectedGroup.value)
-  
+    storingPhenomenaTypesToReduxStore({phenomenonTypes, phenomenonTypesById})
     const { loading: groupsLoading, groups } = useGroups()
   
     const loading = phenomenaTypesLoading || groupsLoading
@@ -166,12 +160,13 @@ const ContentFilters = ({
                 group={selectedGroup.value}
                 language={selectedLanguage.value}
                 countShown={countShown}
-                useTags={useTags}
+                useTags={useTags}// 1
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
                 groupFromRadarApp={group}
                 isRadar={isRadar}
                 nameRadio="tag-filters"
+                storingTagsToReduxStore={storingTagsToReduxStore}
             />
         </div>
         <div className='mb-3'>
@@ -223,129 +218,150 @@ const ContentFilters = ({
   
     // const { loading: groupsLoading } = useGroups()
   
-    const loading = phenomenaTypesLoading || groupsLoading
+const loading = phenomenaTypesLoading || groupsLoading
   
-    const allGroups = groupsProp?.map( g => {
-      return g.value
-    })
-    // const bc = filter(groups, group => group.label).sort( (a,b) => {
-    //   if (a.label < b.label) {
-    //     return -1;
-    //   }
-    //   if (a.label > b.label) {
-    //     return 1;
-    //   }
-    
-    //   // names must be equal
-    //   return 0;
-    // }).map(g => {
-    //   return g.value
-    // })
-    const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups? allGroups : 0), label: requestTranslation('allWord')}
-  
-    const resetFilters = () => {
-      setSelectedTypes([])
-      setSelectedTimes(DEFAULT_TIMES)
-      setSelectedTags([])
-      setSelectedLanguage(!!isRadar ? {
-        value: langRadar || USER_LANGUAGE,
-        label: langRadar === 'en' ? 'English' : 'Suomi'
-      } : SELECTED_LANGUAGE)
-      setSelectedGroup(ALL_GROUP)
-    }
-  
-    const areFiltersApplied = () => {
-      if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
-        return true
-      }
-  
-      return false
-    }
+const allGroups = groupsProp?.map( g => {
+  return g.value
+})
+// const bc = filter(groups, group => group.label).sort( (a,b) => {
+//   if (a.label < b.label) {
+//     return -1;
+//   }
+//   if (a.label > b.label) {
+//     return 1;
+//   }
 
-      const sortedGroups = filter(groupsProp, group => group.label).sort( (a,b) => {
-        if (a?.label < b?.label) {
-          return -1;
-        }
-        if (a?.label > b?.label) {
-          return 1;
-        }
-        return 0;
-      })
-    const groupOptions = passedGroups || concat([ALL_GROUP, PUBLIC_GROUP], sortedGroups)
+//   // names must be equal
+//   return 0;
+// }).map(g => {
+//   return g.value
+// })
+const ALL_GROUP = { value: passedGroups || concat([PUBLIC_GROUP.value], allGroups? allGroups : 0), label: requestTranslation('allWord')}
+
+const resetFilters = () => {
+  setSelectedTypes([])
+  setSelectedTimes(DEFAULT_TIMES)
+  setSelectedTags([])
+  setSelectedLanguage(!!isRadar ? {
+    value: langRadar || USER_LANGUAGE,
+    label: langRadar === 'en' ? 'English' : 'Suomi'
+  } : SELECTED_LANGUAGE)
+  setSelectedGroup(ALL_GROUP)
+}
+
+const areFiltersApplied = () => {
+  if (selectedTypes.length || selectedTimes !== DEFAULT_TIMES || selectedTags.length || selectedLanguage !== SELECTED_LANGUAGE || selectedGroup !== PUBLIC_GROUP) {
+    return true
+  }
+
+  return false
+}
+
+  const sortedGroups = filter(groupsProp, group => group.label).sort( (a,b) => {
+    if (a?.label < b?.label) {
+      return -1;
+    }
+    if (a?.label > b?.label) {
+      return 1;
+    }
+    return 0;
+  })
+const groupOptions = passedGroups || concat([ALL_GROUP, PUBLIC_GROUP], sortedGroups)
+
+const [typesShown, setTypesShown] = useState(false)
+const [timesShown, setTimesShown] = useState(false)
+const [tagsShown, setTagsShown] = useState(false)
+const [groupsShown, setGroupsShown] = useState(false)
+const [languagesShown, setLanguagesShown] = useState(false)
+const [isFiltered, setIsFiltered] = useState(isFilteredProp)
+const [selectedTypes, setSelectedTypes] = useState([])
+const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
+const [selectedTags, setSelectedTags] = useState([])
+const [selectedLanguage, setSelectedLanguage] = useState(!!isRadar ? {
+  value: langRadar || USER_LANGUAGE,
+  label: langRadar === 'en' ? 'English' : 'Suomi'
+} : SELECTED_LANGUAGE)
+const [selectedGroup, setSelectedGroup] = useState(ALL_GROUP)
+const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
+
+useEffect(() => {
+  if(!isRadar) {
+    setIsFiltered(isFilteredProp)
+  }
   
-    const [typesShown, setTypesShown] = useState(false)
-    const [timesShown, setTimesShown] = useState(false)
-    const [tagsShown, setTagsShown] = useState(false)
-    const [groupsShown, setGroupsShown] = useState(false)
-    const [languagesShown, setLanguagesShown] = useState(false)
-  
-    const [selectedTypes, setSelectedTypes] = useState([])
-    const [selectedTimes, setSelectedTimes] = useState(DEFAULT_TIMES)
-    const [selectedTags, setSelectedTags] = useState([])
-    const [selectedLanguage, setSelectedLanguage] = useState(!!isRadar ? {
-      value: langRadar || USER_LANGUAGE,
-      label: langRadar === 'en' ? 'English' : 'Suomi'
-    } : SELECTED_LANGUAGE)
-    const [selectedGroup, setSelectedGroup] = useState(ALL_GROUP)
-    const [debouncedSearchValue, clearTimeout] = useDebounce(search, SEARCH_DEBOUNCE_MS)
-  
-    const {
-      loading: phenomenaTypesLoading,
-      phenomenonTypes,
-      phenomenonTypesById
-    } = usePhenomenonTypes(selectedGroup.value)
-  
-    
-  
-    useEffect(() => {
-      onFilterChange({
-        types: selectedTypes,
-        times: selectedTimes,
-        tags: selectedTags,
-        language: selectedLanguage,
-        group: selectedGroup,
-        page,
-        search: debouncedSearchValue,
-        filtersActive: areFiltersApplied()
-      })
-    }, [
-      selectedTypes,
-      selectedTimes,
-      selectedTags,
-      selectedLanguage,
-      selectedGroup,
+}, [isFilteredProp])
+const {
+  loading: phenomenaTypesLoading,
+  phenomenonTypes,
+  phenomenonTypesById
+} = usePhenomenonTypes((!isFiltered && search === '' && !isRadar) ? 0 :selectedGroup.value)
+
+useEffect(() => {
+  if (!!isRadar) {
+    onFilterChange({
+      types: selectedTypes,
+      times: selectedTimes,
+      tags: selectedTags,
+      language: selectedLanguage,
+      group: selectedGroup,
       page,
-      debouncedSearchValue
-    ])
-  
-    useEffect(() => {
-      if (manualFilterReset) {
-        resetFilters()
-      }
-    }, [manualFilterReset])
-  
-    return (
-      <Fragment>
-        {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
-        <div className='mb-3' id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}>
-            <OptionDropdown
-                label={requestTranslation('createPhenomenaFormTypeLabel')}
-                optionsShown={typesShown}
-                type={'type'}
-                title={selectedTypes.length ? getTypeLabel(selectedTypes) : requestTranslation('all')}
-                selectedOption={selectedTypes}
-                handleOptionSelect={type => setSelectedTypes(addOrRemoveValueFromArray(selectedTypes, type))}
-                options={map(phenomenonTypes, type => ({
-                  value: type.id,
-                  label: type.alias || type.title || type.label,
-                  style: type.style
-                }))}
-                onTabClick={() => setTypesShown(!typesShown)}
-                resetFilters={() => setSelectedTypes([])}
-                countShown={countShown}
-                highest_group_role={highest_group_role}
-                disabled={highest_group_role ==='free'}
-            />
+      search: debouncedSearchValue,
+      filtersActive: areFiltersApplied(),
+    })
+  } else {
+    onFilterChange({
+      types: selectedTypes,
+      times: selectedTimes,
+      tags: selectedTags,
+      language: selectedLanguage,
+      group: selectedGroup,
+      page,
+      search: debouncedSearchValue,
+      filtersActive: areFiltersApplied(),
+      isFiltered
+    })
+  }
+}, [
+  selectedTypes,
+  selectedTimes,
+  selectedTags,
+  selectedLanguage,
+  selectedGroup,
+  page,
+  debouncedSearchValue
+])
+
+useEffect(() => {
+  if (manualFilterReset) {
+    resetFilters()
+  }
+}, [manualFilterReset])
+
+return (
+  <Fragment>
+    {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
+    <div className='mb-3' id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}>
+        <OptionDropdown
+            label={requestTranslation('createPhenomenaFormTypeLabel')}
+            optionsShown={typesShown}
+            type={'type'}
+            title={selectedTypes.length ? getTypeLabel(selectedTypes) : requestTranslation('all')}
+            selectedOption={selectedTypes}
+            handleOptionSelect={type => {
+              setSelectedTypes(addOrRemoveValueFromArray(selectedTypes, type))
+              !isRadar && setIsFiltered(true)
+            }}
+            options={map(phenomenonTypes, type => ({
+              value: type.id,
+              label: type.alias || type.title || type.label,
+              style: type.style
+            }))}
+            onTabClick={() => setTypesShown(!typesShown)}
+            resetFilters={() => setSelectedTypes([])}
+            countShown={countShown}
+            highest_group_role={highest_group_role}
+            disabled={highest_group_role ==='free'}
+        />
         </div>
         <div className='mb-3' id={highest_group_role === 'free' ? "time-cont-exp-filter" : null}>
             <TimelineOptionDropdown
@@ -353,7 +369,10 @@ const ContentFilters = ({
                 optionsShown={timesShown}
                 title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
                 selectedOption={selectedTimes}
-                handleOptionSelect={times => setSelectedTimes(times)}
+                handleOptionSelect={times => {
+                  setSelectedTimes(times)
+                  !isRadar && setIsFiltered(true)
+                }}
                 onTabClick={() => setTimesShown(!timesShown)}
                 countShown={countShown}
                 highest_group_role={highest_group_role}
@@ -362,6 +381,8 @@ const ContentFilters = ({
         </div>
         <div className='mb-3' id={highest_group_role === 'free' ? "tags-cont-exp-filter" : null}>
             <TagOptionDropdown
+                isFilteredProp={isFilteredProp}
+                isRadar={isRadar}
                 label={requestTranslation('tags')}
                 optionsShown={tagsShown}
                 title={selectedTags.length === 0 ? requestTranslation('none') : getTagLabel(selectedTags, selectedLanguage)}
@@ -374,13 +395,14 @@ const ContentFilters = ({
                       value: tag?.uri
                     }
                   }
+                  !isRadar && setIsFiltered(true)
                   setSelectedTags(addOrRemoveValueFromArray(selectedTags, !!tempTag ? tempTag : tag))
                 }}
                 onTabClick={() => setTagsShown(!tagsShown)}
                 group={selectedGroup.value}
                 language={selectedLanguage.value}
                 countShown={countShown}
-                useTags={useTags}
+                useTags={useTags} //2
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
                 nameRadio="tag-filters"
@@ -395,7 +417,10 @@ const ContentFilters = ({
                 options={groupOptions}
                 selectedOption={selectedGroup}
                 onTabClick={() => setGroupsShown(!groupsShown)}
-                handleOptionSelect={e =>  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))}
+                handleOptionSelect={e =>  {
+                  setSelectedGroup(find(groupOptions, { label: e.target.innerText }))
+                  !isRadar && setIsFiltered(true)
+                }}
                 countShown={countShown}
                 highest_group_role={highest_group_role}
                 disabled={highest_group_role ==='free'}
@@ -410,7 +435,10 @@ const ContentFilters = ({
                 optionsShown={languagesShown}
                 options={radarLanguagesWithAll()}
                 selectedOption={selectedLanguage}
-                handleOptionSelect={e => setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))}
+                handleOptionSelect={e => {
+                  !isRadar && setIsFiltered(true)
+                  setSelectedLanguage(find(radarLanguagesWithAll(), { label: e.target.innerText }))
+                }}
                 onTabClick={() => setLanguagesShown(!languagesShown)}
                 countShown={countShown}
                 highest_group_role={highest_group_role}
@@ -432,5 +460,5 @@ const ContentFilters = ({
   }
 }
 
-const MemoizedContentFilters = React.memo(ContentFilters, contentFiltersPropsAreEqual);
+const MemoizedContentFilters = React.memo(ContentFilters);
 export default MemoizedContentFilters
