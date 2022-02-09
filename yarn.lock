@@ -1107,10 +1107,10 @@
     axios "^0.19.1"
     lodash-es "^4.17.15"
 
-"@sangre-fp/hooks@^1.0.17":
-  version "1.0.17"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.17.tgz#2e00989df25d206ef50657ee96265e32c4f838a8"
-  integrity sha512-ev8KL3h0wdfih3DGaOJnC6JSweyFiypMj2UcWhkK6nk8TMsevm2Xhjc71ituNotvW7GoLpbRKSShDtaY9J0hgw==
+"@sangre-fp/hooks@^1.0.18":
+  version "1.0.18"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.18.tgz#6b1973be4ef034955ed773675e1578d8fd1c5957"
+  integrity sha512-xXU5oibZmu0uciOxTMiH5XHFqRLyQK7ayOY602aEnbSpXvTAmgpxIFEupU/x1jyXkZ+OI/uCMhBOtKBsPTQvsw==
   dependencies:
     "@sangre-fp/connectors" "^2.1.0"
     lodash-es "^4.17.15"

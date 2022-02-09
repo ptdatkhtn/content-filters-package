@@ -5,7 +5,7 @@
   "module": "dist/index.modern.mjs",
   "license": "UNLICENSED",
   "dependencies": {
-    "@sangre-fp/hooks": "^1.0.17",
+    "@sangre-fp/hooks": "^1.0.18",
     "@sangre-fp/i18n": "^2.1.10",
     "@sangre-fp/ui": "^2.0.56",
     "lodash-es": "^4.17.15",
