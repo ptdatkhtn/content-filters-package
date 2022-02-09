@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { requestTranslation, radarLanguagesWithAll, setLanguage } from '@sangre-fp/i18n'
-import { OptionDropdown, TagOptionDropdown, TimelineOptionDropdown, Loading } from '@sangre-fp/ui'
+import { OptionDropdown, OptionDropdownCustomedForTypeFilterOnContentExpl, TagOptionDropdown, TimelineOptionDropdown, Loading } from '@sangre-fp/ui'
 import { useTags, usePhenomenonTypes, useGroups, useEditableGroups } from '@sangre-fp/hooks'
 import { useDebounce } from 'use-debounce'
 import { addOrRemoveValueFromArray, getTypeLabel, getTimeLabel, getTagLabel } from './helpers'
@@ -107,7 +107,7 @@ const ContentFilters = ({
       <Fragment>
         {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
         <div className='mb-3'>
-            <OptionDropdown
+            <OptionDropdownCustomedForTypeFilterOnContentExpl
                 label={requestTranslation('createPhenomenaFormTypeLabel')}
                 optionsShown={typesShown}
                 type={'type'}
@@ -292,7 +292,7 @@ const {
   loading: phenomenaTypesLoading,
   phenomenonTypes,
   phenomenonTypesById
-} = usePhenomenonTypes((!isFiltered && search === '' && !isRadar) ? 0 :selectedGroup.value)
+} = usePhenomenonTypes((!isFiltered && search === '' && !isRadar) ? groupsProp :selectedGroup.value)
 
 useEffect(() => {
   if (!!isRadar) {
