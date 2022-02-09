@@ -339,7 +339,7 @@ return (
   <Fragment>
     {loading && <div className="py-2 pl-2">{requestTranslation('loading')}</div>}
     <div className='mb-3' id={highest_group_role === 'free' ? "type-cont-exp-filter" : null}>
-        <OptionDropdown
+        <OptionDropdownCustomedForTypeFilterOnContentExpl
             label={requestTranslation('createPhenomenaFormTypeLabel')}
             optionsShown={typesShown}
             type={'type'}
