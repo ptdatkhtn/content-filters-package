@@ -292,8 +292,8 @@ const {
   loading: phenomenaTypesLoading,
   phenomenonTypes,
   phenomenonTypesById
-} = usePhenomenonTypes((!isFiltered && search === '' && !isRadar) ? groupsProp :selectedGroup.value)
-
+// } = usePhenomenonTypes((!isFiltered && search === '' && !isRadar) ? groupsProp :selectedGroup.value)
+} = usePhenomenonTypes(selectedGroup.value)
 useEffect(() => {
   if (!!isRadar) {
     onFilterChange({
