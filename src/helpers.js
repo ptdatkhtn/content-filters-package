@@ -1,4 +1,4 @@
-import { find, capitalize, isString } from 'lodash-es'
+import _, { find, capitalize, isString } from 'lodash-es'
 import { requestTranslation } from '@sangre-fp/i18n'
 
 export const addOrRemoveValueFromArray = (array, value) => find(array, value) ? _.filter(array, v => {
